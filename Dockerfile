@@ -4,8 +4,7 @@ ENV PID_DIR /tmp/pidDir
 ENV GROK_ARCH="grok_exporter-1.0.0.RC5.linux-amd64"
 ENV GROK_VERSION="v1.0.0.RC5"
 
-USER root
-
+USER 1000000001
 
 RUN apt-get update -qqy \
     && apt-get upgrade -qqy \
@@ -25,3 +24,8 @@ RUN mkdir -p /etc/grok_exporter
 RUN ln -sf /etc/grok_exporter/config.yml /grok/
 
 RUN apt-get update
+
+EXPOSE 514/tcp 514/udp 9144/tcp
+WORKDIR /grok
+
+CMD ./grok_exporter -config /grok/config.yml
